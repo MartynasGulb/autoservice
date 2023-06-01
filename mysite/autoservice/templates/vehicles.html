@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block "title" %} Automobiliai {% endblock %}
+
+{% block "content" %}
+ {% load static %}
+<h1>Automobiliai</h1>
+<br>
+<div class="row">
+      {% for vehicle in vehicles %}
+        <div class="col-md-4 d-flex align-items-stretch">
+          <div class="card mb-4 shadow-sm">
+            {% if vehicle.photo %}
+              <img src="{{ vehicle.photo.url }}" class="card-img-top" alt="...">
+            {% else %}
+              <img src="{% static 'img/no-image.png' %}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">{{ vehicle.vehicle_model }}</h6>
+              <p class="card-text"><a href="{{ vehicle.id }}">{{ vehicle.plate }}</a></p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+<div class = 'container'>
+    {% if vehicles.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-center">
+            {% for i in vehicles.paginator.page_range %}
+                {% if vehicles.number == i %}
+                    <li class="page-item active">
+                        <a class="page-link">{{ i }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block "title" %} Uzsakymo trinimas {% endblock %}
+
+{% block "content" %}
+
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        {% load crispy_forms_tags %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Ištrinti uzsakymas</legend>
+            <h2>Ar tikrai norite ištrinti uzsakyma {{ order }}?</h2>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-danger" type="submit">Taip, ištrinti</button>
+            <a class="btn btn-outline-secondary" href="{% url 'order' order.id %}">Atšaukti</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

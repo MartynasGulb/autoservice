@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block "title" %} Uzsakymas {% endblock %}
+
+{% block "content" %}
+<h1>Uzsakymas</h1>
+<br>
+<p><strong>Automobilis:</strong>{{ order.vehicle}}</p>
+<p><strong>Data:</strong>{{ order.date}}</p>
+<p><strong>Busena:</strong>{{ order.get_status_display }}</p>
+<p><strong>Klientas:</strong>{{ order.client }}</p>
+{% if user.is_staff %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'order_update' order.id %}">Redaguoti</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'order_delete' order.id %}">Ištrinti</a>
+</div>
+{% endif %}
+<hr>
+<table class="table table-dark">
+    <tr>
+        <th>Paslauga</th>
+        <th>Kaina</th>
+        <th>Kiekis</th>
+        <th>Suma</th>
+        {% if user.is_staff %}
+        <th></th>
+        {% endif %}
+    </tr>
+    {% for line in order.lines.all %}
+    <tr>
+        <td>{{ line.service}}</td>
+        <td>{{ line.service.price}}</td>
+        <td>{{ line.qty}}</td>
+        <td>{{ line.sum }}</td>
+        {% if user.is_staff %}
+        <td>
+           <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'updateline' order.id line.id %}">Redaguoti</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'deleteline' order.id  line.id %}">Ištrinti</a>
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    <tr>
+        <td> VISO</td>
+        <td></td>
+        <td></td>
+        <td><strong>{{ order.total }}</strong></td>
+        {% if user.is_staff %}
+        <td></td>
+        {% endif %}
+    </tr>
+
+</table>
+
+<br>
+{% if user.is_staff %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'newline' order.id %}">Prideti eilute</a>
+</div>
+{% endif %}
+<br>
+<h2>Atsiliepimai</h2>
+{% if user.is_authenticated %}
+<div class="fieldWrapper">
+    <hr>
+    <br/>
+    <h4>Palikite atsiliepimą:</h4>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.content }}</br>
+        <input type="submit" value="Paskelbti">
+    </form>
+</div>
+{% endif %}
+{% if order.comments.all %}
+{% for comment in order.comments.all %}
+<hr>
+<strong>{{ comment.user }}</strong>, <em>{{ comment.date_created}}</em>
+<p>{{ comment.content }}</p>
+{% endfor %}
+{% else %}
+<p>Komentarų nėra</p>
+{% endif %}
+{% endblock %}

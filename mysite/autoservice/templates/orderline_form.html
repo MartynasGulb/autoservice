@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block "title" %} uzsakymo eilutes kurimas/redagavimas {% endblock %}
+
+{% block "content" %}
+
+
+<div class="content-section">
+    <form method="POST">
+        {% load crispy_forms_tags %}
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">uzsakymo eilutes kurimas/redagavimas</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Išsaugoti</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block "title" %} Mano uzsakymai {% endblock %}
+
+{% block "content" %}
+<h1>Uzsakymai</h1>
+<br>
+{% for order in orders %}
+<p><a href="{% url 'order' order.pk %}">{{ order.vehicle }}</a> (<span class="{% if order.deadline_overdue %} text-danger{% endif %}">{{ order.deadline }}</span>)</p>
+
+<hr>
+{% endfor %}
+
+{% endblock %}

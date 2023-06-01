@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block "title" %} Pradzia {% endblock %}
+
+{% block "content" %}
+<h1> Musu autoserviso statistika:</h1>
+<ul>
+    <li><strong> Paslaugu kiekis: </strong>{{num_service}}</li>
+    <li><strong> Uzsakymu kiekis: </strong>{{num_order}}</li>
+    <li><strong> Automobiliu kiekis: </strong>{{num_vehicle}}</li>
+     <li><strong> Čia jus lankotes </strong>{{ num_visits }}<strong>-ą kartą</strong> </li>
+</ul>
+
+{% endblock %}
